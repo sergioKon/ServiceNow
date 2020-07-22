@@ -39,7 +39,7 @@ public class LoggerSercher {
 		String format = "dd-mm-yyyy hh:mm:ss";	
 		String text = line.substring(format.length()+1);
 		
-		String regex = "(\\d{2}-\\d{2}-\\d{4}\\s+\\[0-24])";
+		String regex = "(\\d{2}-\\d{2}-\\d{4}\\s+)";
 		Pattern pattern = Pattern.compile(regex);
 		//text= "current date: 01-05-2017. Naomi is ";
 		Matcher matcher = pattern.matcher(line);
