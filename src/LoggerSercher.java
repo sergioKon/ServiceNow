@@ -19,43 +19,17 @@ public class LoggerSercher {
 	public static void main(String[] args) throws FileNotFoundException, IOException {
 		try (FileReader  in = new FileReader("Resource/sentenses.txt");
 			 BufferedReader reader = new BufferedReader(in)) {
-			
-			  reader.lines().forEach(line -> processLine(line));
+			  reader.lines().forEach(line -> content.add(line));
 			}
 		generateMap();
-	//	System.out.println("=================================");
-	//	printLogger();
 		}
 
-	private static void printLogger() {
-		for (String  keyLine : encodedLine.keySet()) {
-			Integer value= encodedLine.get(keyLine);
-		    System.out.println(keyLine +  value );
-		}		
-	}
-
-	private static void processLine(String line) {
-		
-		String format = "dd-mm-yyyy hh:mm:ss";	
-		String text = line.substring(format.length()+1);
-		
-		String regex = "(\\d{2}-\\d{2}-\\d{4}\\s+)";
-		Pattern pattern = Pattern.compile(regex);
-		//text= "current date: 01-05-2017. Naomi is ";
-		Matcher matcher = pattern.matcher(line);
-		if (matcher.find()) {
-		   int start = matcher.start(); // start index of match
-		  int  end = matcher.end(); // end index of match
-		  String  result = matcher.group();
-		  System.out.println(result);
-		  System.out.println("-----------------------------------");
-		}
-		content.add(line);
-	//	System.out.println(text);
-	}
-	
+	/**
+	 * generate map contains  n*m other  keys 
+	 *  n - number rows , 
+	 * m - number words are reading from the file  
+	 */
 	private static void  generateMap() {
-		
 		for(String text : content) {
 		String words[] = text.substring(20).split(" ");
 		rowIndex++;
@@ -71,11 +45,18 @@ public class LoggerSercher {
 			}
 		}	
 	}
-
+	
+	/**
+	 * 
+	 * @param keyLine  - key from map which has been generate already
+	 * @param text     - duplicate text without single world
+	 * @return         - find single world from each line 
+	 */
 	private static String findChangingWord(String keyLine, String text) {
 		String gap= "";
 		String[] first= keyLine.split(" ");
 		String[] second= text.split(" ");
+		/* since text starts with date we have to parse string from third position */
 		for(int i=2; i<first.length; i++) {
 			if(first[i].equals(second[i])) {
 				continue;
@@ -85,10 +66,14 @@ public class LoggerSercher {
 				 return gap;
 			}
 		}
-		return null;
-		
+		return null;	
 	}
-
+ /**
+  * 
+  * @param words   - line from source file  
+  * @param count   -  index of world which can be find as a differ 
+  * @return        - unique key 
+  */
 	private static String generateKey(String[] words, int count) {
 		StringBuffer keyLine= new StringBuffer();
 		for( Integer i=0;i< count; i++) {
