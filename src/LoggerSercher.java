@@ -1,6 +1,4 @@
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -8,8 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class LoggerSercher {
     
@@ -17,11 +13,13 @@ public class LoggerSercher {
 	static Map<String,Integer> encodedLine = new HashMap<>();
 	static List<String> content = new ArrayList<String>();
 	public static void main(String[] args) throws FileNotFoundException, IOException {
+		long start= System.currentTimeMillis();
 		try (FileReader  in = new FileReader("Resource/sentenses.txt");
 			 BufferedReader reader = new BufferedReader(in)) {
 			  reader.lines().forEach(line -> content.add(line));
 			}
 		generateMap();
+		System.out.println(  (System.currentTimeMillis() - start ));
 		}
 
 	/**
